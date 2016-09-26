@@ -1,3 +1,4 @@
+
 function removeLoadingBar() {
 	document.getElementById("LoadingBar").remove();
 	setTimeout(function() {
@@ -35,13 +36,52 @@ function delineate(str){
 	theright = str.lastIndexOf("&");
 	return(str.substring(theleft, theright));
 }
+// Create the XHR object.
+function createCORSRequest(method, url) {
+  var xhr = new XMLHttpRequest();
+  if ("withCredentials" in xhr) {
+    // XHR for Chrome/Firefox/Opera/Safari.
+    xhr.open(method, url, true);
+  } else if (typeof XDomainRequest != "undefined") {
+    // XDomainRequest for IE.
+    xhr = new XDomainRequest();
+    xhr.open(method, url);
+  } else {
+    // CORS not supported.
+    xhr = null;
+  }
+  return xhr;
+}
 
-function beginGame(){ // MAIN GAME CODE
-var urlPart1 = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
-var wikitopic = "iOS"
-var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
-var url = urlPart1.concat(wikitopic)
-var xhttp = new XMLHttpRequest(wikitopicWspace);
+// Helper method to parse the title tag from the response.
+
+// Make the actual CORS request.
+function makeCorsRequest() {
+  // This is a sample server that supports CORS.
+	var urlPart1 = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
+	var wikitopic = "iOS"
+	var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
+	var url = urlPart1.concat(wikitopic)
+
+  var xhr = createCORSRequest('GET', url);
+  if (!xhr) {
+    alert('CORS not supported');
+    return;
+  }
+
+  // Response handlers.
+  xhr.onload = function() {
+    var text = xhr.responseText;
+    alert(xhr.responseText);
+  };
+
+  xhr.onerror = function() {
+    alert('Woops, there was an error making the request.');
+  };
+
+  xhr.send();
+}
+/*var xhttp = new XMLHttpRequest(wikitopicWspace);
   xhttp.onreadystatechange = function() {
     if (this.readyState == 4 && this.status == 200) {
 		 var CommonWords=(getFrequency2(this.responseText, 30,wikitopicWspace)).split(",");
@@ -57,7 +97,7 @@ var xhttp = new XMLHttpRequest(wikitopicWspace);
   };
   xhttp.open("GET", url, true);
   xhttp.send();
-}
+}*/
 	function getFrequency2(string, cutOff, topic) {
 	var cleanString = string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]|the |of |are |and |to |a |in |is |many |i |that |it |for |you |was |with |on |be |have |but |be |they |as |its |= |january |february |march |april |may |june |july |august |september |october |november |december |by |he |she |by |from |her |him |or |can |most /gi,'');
 	var re = new RegExp(topic, "gi"); //Setting up the topic as a word to be romoved by the filter
@@ -76,7 +116,7 @@ var xhttp = new XMLHttpRequest(wikitopicWspace);
 }
 
 window.onload = function() {
-	beginGame();
+	makeCorsRequest();
 	var locate = window.location.toString();
 	var difficulty=locate.substring(locate.indexOf("?")+1,locate.length);
 };
