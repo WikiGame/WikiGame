@@ -1,0 +1,141 @@
+
+.latofont{
+	font-family: 'Lato', sans-serif;
+}
+.arvofont{
+	font-family: 'Arvo', serif;
+}
+.ralewayfont{
+	font-family: 'Raleway', serif;
+}
+
+body {
+    background-image: url("wiki.png");
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+	margin-bottom: 50px;
+	background-repeat: no-repeat;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	box-shadow: 0 0 0px rgba(0,0,0,0.9) inset;
+}
+
+
+
+.titletext{
+	font-size: 80px;
+	color: #ffffff;
+	font-weight: bold;
+	text-shadow: 3.5px 3.5px #11111133;
+ 	background-color: #FF5800;
+
+}
+.smalltitlebox{
+	text-align: center;
+	margin: auto;
+    width: 100%;
+    padding-top: 60px;
+}
+.smalltitle{
+	font-size: 25px;
+	color: #444444;
+	font-weight: bold;
+}
+.titlebox{
+	text-align: center;
+	margin: auto;
+    width: 100%;
+}
+
+
+
+.centerbox{
+	text-align: center;
+	margin: auto;
+    width: 40%;
+}
+.explanation{
+	font-size: 20px;
+	color: #444444;
+	background-color: #ffffff;
+}
+.explanationtitle{
+	font-size: 20px;
+	color: #444444;
+	font-weight: bold;
+	background-color: #ffffff;
+}
+
+
+
+.difficultybuttons{
+	text-align: center;
+	margin: auto;
+    width: 40%;
+	padding-bottom: 10px;
+	padding-top: 5px;
+	background-color: #ffffff;
+}
+.difficultybox{
+	text-align: center;
+	margin: auto;
+    width: 40%;
+}
+
+
+
+
+.letsgobox{
+	text-align: center;
+	margin: auto;
+    width: 40%;
+    padding: 0px;
+	background-color: #FF580000;
+
+}
+
+
+
+footer {
+    position: fixed; 
+    bottom: 0px; 
+    width: 100%; 
+    height: 70px; 
+	padding: 10px;
+    background-color: #ffffff;
+	background-image: url("footer.png");
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.footertext {
+	text-align: center;
+}
+
+
+
+.wordtable {
+	width: 40%;
+	height: 100px;
+	background-color: #ffffff99;
+}
+.answerareabox{
+	background-color: #ffffff;
+	padding: 10px;
+}
+.score{
+	font-size: 60px;
+	color: #FF5800;
+}
+.scorelabel{
+	font-size: 20px;
+	color: #FF5800
+}
+
+
