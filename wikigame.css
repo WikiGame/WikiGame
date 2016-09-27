@@ -86,9 +86,10 @@ body {
 	margin: auto;
     width: 40%;
 }
-
-
-
+.borders{
+	border-bottom: 1px solid grey;
+	border-top: 1px solid grey;
+}
 
 .letsgobox{
 	text-align: center;
@@ -123,7 +124,7 @@ footer {
 .wordtable {
 	width: 40%;
 	height: 100px;
-	background-color: #ffffff99;
+	background-color: #ffffffBB;
 }
 .answerareabox{
 	background-color: #ffffff;

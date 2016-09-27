@@ -4,34 +4,35 @@
 <title>Guess that Wikipage!</title>
 
 <head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<link href="./data/icon" rel="stylesheet">
 	<link href="./data/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection">
 	<link href="./data/style.css" type="text/css" rel="stylesheet" media="screen,projection">
 	<script type="text/javascript" src="./data/bc2556d1c1ea2a2d00.js.download"></script>
 	<link href="https://fonts.googleapis.com/css?family=Arvo:700i" rel="stylesheet"> <!--Use this for the "5 words"-->
-	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Lato:900i" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet"> 
+	<link href="https://fonts.googleapis.com/css?family=Lato:900i" rel="stylesheet"> 
 	<link rel="stylesheet" type="text/css" href="wikigame.css">
 	<link href="bootstrap.css" rel="stylesheet">
 	<script type="text/javascript" src="wikigame.js"></script>
-	<script src="./data/jquery-3.1.1.min.js"></script>
+    <script src="./data/jquery-2.1.1.min.js.download"></script>
 	<script src="./data/materialize/js/materialize.js"></script>
 	<script src="./data/init.js.download"></script>
 </head>
 
-<body onload="beginGame()" style = "background-color: #F6F6F6;" class = "shadow">
 
+
+
+<body style = "background-color: #F6F6F6;" class = "shadow">
 	<div class = "smalltitlebox latofont"><p class = "smalltitle">It's time to play...</p></div>
 	<div class = "titlebox latofont"><p class = "titletext">GUESS THAT WIKI</p></div>
-
+	
 	<p></p>
     <div class = "centerbox">
 		<p style = "padding:10px;" class = "explanationtitle ralewayfont">Your Words:</p>
 	</div>
 	<div class = "centerbox" style = "visibility: visible;">
 		<div class="progress" id="LoadingBar">
-			<div class="indeterminate orange" ></div>
+			<div class="indeterminate orange" ></div>		
 		</div>
 	</div>
 	<table class = "wordtable" align = "center">
@@ -73,14 +74,16 @@
 	<p></p>
 	<div class = "centerbox answerareabox" style="text-align=center;">
 		<p></p>
-		<input style="font-size: 20px;" type="text" class="form-control" placeholder="Guess that Wikipage!">
+		<input id="guessBar" style="font-size: 20px;" type="text" class="form-control" placeholder="Guess that Wikipage!">
 		<p></p>
+	
 
-
-			<a id = "modal-trigger" style = "width: 100%" class="waves-effect
-			waves-light btn modal-trigger teal lighten-2 latofont" href="#answermodal">Submit your guess</a>
-
-
+			<!--<a id = "modal-trigger" style = "width: 100%" class="waves-effect 
+			waves-light btn modal-trigger teal lighten-2 latofont" href="#answermodal">Submit your guess</a>-->
+			<a style = "width: 100%" class="waves-effect 
+			waves-light btn teal lighten-2 latofont" onclick="guessButton()">Submit your guess</a>
+			
+			
 			  <div id="answermodal" class="modal modal-fixed-footer" style="height: 200px;">
 				<div class="modal-content" style="height: 150px; border-radius: 0px;">
 				  <h3 class="latofont">The Scores on The Doors!</h3>
@@ -89,13 +92,18 @@
 				</div>
 				<div class="modal-footer">
 				  <a href="#!" class="modal-action modal-close waves-effect orange waves-light
-				btn-flat latofont" style="color: white;">Next Question</a>
+				btn-flat latofont" style="color: white;" onclick="endRound()">Next Question</a>
 				</div>
 			  </div>
 
-
-
+		
+		
 	</div>
+	<p></p>
+	<table style = "background-color: #ffffff66; width: 40%; table-layout: fixed;" align = "center">
+		<tr id = "guessesTable" style = "width: 40%">
+		</tr>
+	</table>
 	<table style = "width: 40%; height: 100px; table-layout: fixed;" align = "center">
 		<tr style = "width: 50%;">
 			<td style="text-align: center;">
@@ -115,7 +123,7 @@
 		</tr>
 	</table>
 
-
+	
 <footer>
 	<p class="footertext latofont">"GUESS THAT WIKIPAGE" was created by Rufus Dickinson and Lewis Debenham.</p>
 	<p class="footertext latofont">Copyright © 2016</p>
