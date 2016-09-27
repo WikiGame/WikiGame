@@ -37,7 +37,7 @@ function delineate(str){
 }
 
 function beginGame(){ // MAIN GAME CODE
-var urlPart1 = "https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
+var urlPart1 = "https://crossorigin.me/http://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
 var wikitopic = "iOS"
 var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
 var url = urlPart1.concat(wikitopic)
@@ -58,6 +58,7 @@ var xhttp = new XMLHttpRequest(wikitopicWspace);
   xhttp.open("GET", url, true);
   xhttp.send();
 }
+
 	function getFrequency2(string, cutOff, topic) {
 	var cleanString = string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]|the |of |are |and |to |a |in |is |many |i |that |it |for |you |was |with |on |be |have |but |be |they |as |its |= |january |february |march |april |may |june |july |august |september |october |november |december |by |he |she |by |from |her |him |or |can |most /gi,'');
 	var re = new RegExp(topic, "gi"); //Setting up the topic as a word to be romoved by the filter
