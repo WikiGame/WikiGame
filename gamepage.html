@@ -30,42 +30,42 @@
     <div class = "centerbox">
 		<p style = "padding:10px;" class = "explanationtitle ralewayfont">Your Words:</p>
 	</div>
-	<div class = "centerbox" style = "visibility: visible;">
+	<div id = "loadingbarbox" class = "centerbox" style = "visibility: visible;">
 		<div class="progress" id="LoadingBar">
 			<div class="indeterminate orange" ></div>		
 		</div>
 	</div>
 	<table class = "wordtable" align = "center">
 		<tr>
-			<td style="text-align: center;">
-				<div id="word1" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-2">
+			<td id ="wordCont1" style="text-align: center;">
+				<div id="word1" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-4">
 					<font id="font1" color="#4DB6AC">Word 1</font>
 				</div>
 			</td>
-			<td style="text-align: center;">
-				<div id="word2" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-2">
-					<font id="font2" color="#4DB6AC">Word 2</font>
+			<td id ="wordCont3" style="text-align: center;">
+				<div id="word3" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-4">
+					<font id="font3" color="#4DB6AC">Word 3</font>
 				</div>
 			</td>
-			<td style="text-align: center;">
-				<div id="word3" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-2">
-					<font id="font3" color="#4DB6AC">Word 3</font>
+			<td id ="wordCont5" style="text-align: center;">
+				<div id="word5" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-4">
+					<font id="font5" color="#4DB6AC">Word 5</font>
 				</div>
 			</td>
 		</tr>
 		<tr>
-			<td style="text-align: center;">
-				<div id="word4" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-2">
+			<td id ="wordCont2" style="text-align: center;">
+				<div id="word2" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-4">
+					<font id="font2" color="#4DB6AC">Word 2</font>
+				</div>
+			</td>
+			<td id ="wordCont4" style="text-align: center;">
+				<div id="word4" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-4">
 					<font id="font4" color="#4DB6AC">Word 4</font>
 				</div>
 			</td>
-			<td style="text-align: center;">
-				<div id="word5" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-2">
-					<font id="font5" color="#4DB6AC">Word 5</font>
-				</div>
-			</td>
-			<td style="text-align: center;">
-				<div id="word6" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-2">
+			<td id ="wordCont6" style="text-align: center;">
+				<div id="word6" style="font-size: 20px; visibility: hidden;" class="chip ralewayfont teal lighten-4">
 					<font id="font6" color="#4DB6AC">Word 6</font>
 				</div>
 			</td>
@@ -80,15 +80,24 @@
 
 			<!--<a id = "modal-trigger" style = "width: 100%" class="waves-effect 
 			waves-light btn modal-trigger teal lighten-2 latofont" href="#answermodal">Submit your guess</a>-->
-			<a style = "width: 100%" class="waves-effect 
-			waves-light btn teal lighten-2 latofont" onclick="guessButton()">Submit your guess</a>
-			
+			<table style = "width:100%; table-layout: fixed"  >
+				<tr>
+					<td colspan = 4 style = "padding: 5px;">
+					<a style = "width: 100%" class="waves-effect 
+					waves-light btn teal lighten-2 latofont" onclick="guessButton()">Submit your guess</a>
+					</td>
+					<td style = "padding: 5px;">
+					<a style = "width: 100%" class="waves-effect 
+					waves-light btn teal latofont" onclick="loadModal()">Pass</a>
+					</td>
+				</tr>
+			</table>
 			
 			  <div id="answermodal" class="modal modal-fixed-footer" style="height: 200px;">
 				<div class="modal-content" style="height: 150px; border-radius: 0px;">
 				  <h3 class="latofont">The Scores on The Doors!</h3>
-				  <p class="ralewayfont">Your best answer was "World War 1" but the actual page was: <a href="http://www.wikipedia.org/wiki/World_War_II" target="_blank">World War II</a></p>
-				  <p class="ralewayfont">You get 96 points for your answer. (95.75% correct.)</p>
+				  <p id = "bestanswer" class="ralewayfont">Your best answer was "World War 1" but the actual page was: <a href="http://www.wikipedia.org/wiki/World_War_II" target="_blank">World War II</a></p>
+				  <p id = "scoreanswer" class="ralewayfont">You get 96 points for your answer. (95.75% correct.)</p>
 				</div>
 				<div class="modal-footer">
 				  <a href="#!" class="modal-action modal-close waves-effect orange waves-light
@@ -107,10 +116,10 @@
 	<table style = "width: 40%; height: 100px; table-layout: fixed;" align = "center">
 		<tr style = "width: 50%;">
 			<td style="text-align: center;">
-				<p class="latofont score">3000</p>
+				<p id = "score" class="latofont score">0</p>
 			</td>
-			<td style="text-align: center;">
-				<p class="latofont score">8</p>
+			<td  style="text-align: center;">
+				<p id = "round" class="latofont score">1</p>
 			</td>
 		</tr>
 		<tr style = "width: 50%;">
@@ -125,8 +134,8 @@
 
 	
 <footer>
-	<p class="footertext latofont">"GUESS THAT WIKIPAGE" was created by Rufus Dickinson and Lewis Debenham.</p>
-	<p class="footertext latofont">Copyright © 2016</p>
+	<p class="footertext latofont">"GUESS THAT WIKIPAGE" was created by Rufus Dickinson and Lewis Debenham. Copyright © 2016</p>
+	<p class="footertext latofont">For bug reporting, support or enquiries, email <a href = "mailto:guessthatwiki@gmail.com?Subject=Please%20Be%20Nice%20To%20Us">guessthatwiki@gmail.com</a></p>
 </footer>
 <script type="text/javascript" src="gamepage.js"></script>
 

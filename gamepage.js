@@ -1,5 +1,7 @@
+
 function removeLoadingBar() {
-	document.getElementById("LoadingBar").remove();
+	//document.getElementById("loadingbarbox").removeChild(document.getElementById("LoadingBar"));
+	document.getElementById("loadingbarbox").style.display = "none";
 	setTimeout(function() {
 	document.getElementById("word1").style.visibility = 'visible';
 	}, 100);
@@ -33,40 +35,59 @@ function removeLoadingBar() {
 
 
 function bringbackLoadingBar() {
-	document.getElementById("LoadingBar").remove();
+	//document.getElementById("loadingbarbox").appendChild(document.getElementById("LoadingBar"));
+	document.getElementById("loadingbarbox").style.display = "block";
 	setTimeout(function() {
-	document.getElementById("word1").style.visibility = 'visible';
+	document.getElementById("word1").style.visibility = 'hidden';
 	}, 100);
 	setTimeout(function() {
-	document.getElementById("word2").style.visibility = 'visible';
+	document.getElementById("word2").style.visibility = 'hidden';
 	}, 200);
 	setTimeout(function() {
-	document.getElementById("word3").style.visibility = 'visible';
-	document.getElementById("font1").color = 'White';
+	document.getElementById("word3").style.visibility = 'hidden';
+	document.getElementById("font1").color = '#4DB6AC';
 	}, 300);
 	setTimeout(function() {
-	document.getElementById("word4").style.visibility = 'visible';
-	document.getElementById("font2").color = 'White';
+	document.getElementById("word4").style.visibility = 'hidden';
+	document.getElementById("font2").color = '#4DB6AC';
 	}, 400);
 	setTimeout(function() {
-	document.getElementById("word5").style.visibility = 'visible';
-	document.getElementById("font3").color = 'White';
+	document.getElementById("word5").style.visibility = 'hidden';
+	document.getElementById("font3").color = '#4DB6AC';
 	}, 500);
 	setTimeout(function() {
-	document.getElementById("word6").style.visibility = 'visible';
-	document.getElementById("font4").color = 'White';
+	document.getElementById("word6").style.visibility = 'hidden';
+	document.getElementById("font4").color = '#4DB6AC';
 	}, 600);
 	setTimeout(function() {
-	document.getElementById("font5").color = 'White';
+	document.getElementById("font5").color = '#4DB6AC';
 	}, 700);
 	setTimeout(function() {
-	document.getElementById("font6").color = 'White';
+	document.getElementById("font6").color = '#4DB6AC';
 	}, 800);
 }
 
+function loadModal(){
+	setTimeout(function(){
+			percentageScore = 96.12;
+			scoreGain = percentageScore*100
+			subjectname="google"
+			linktosubject="http://www.google.co.uk"
+			bestanswer="Napoleon Dynamite"
+			document.getElementById("bestanswer").innerHTML = "Your best answer was '".concat(bestanswer).concat("' but the actual page was <a href=").concat(linktosubject).concat(' target="_blank">').concat(subjectname.concat(".")).concat("</a>");
+			document.getElementById("scoreanswer").innerHTML = "You get ".concat(scoreGain).concat(" points for your answer. (").concat(percentageScore).concat("% correct.)")
+			$('#answermodal').openModal();
+	}, 800);
+}
 
+function randomInteger(max) {
+  return Math.round(Math.random() * (max));
+}
 
-
+function getSubject(){
+	return wordList[randomInteger(wordList.length)];
+	
+}
 
 function guessButton(){
 	numguesses = numguesses+1;
@@ -80,9 +101,13 @@ function guessButton(){
 	}
 	else{
 		document.getElementById("guessesTable").innerHTML = guessTD1.concat(guesses[0].concat(guessTD2.concat(guessTD1.concat(guesses[1].concat(guessTD2.concat(guessTD1.concat(guesses[2].concat(guessTD2))))))))
-		$('#answermodal').openModal();
+		loadModal()
+		
 	}
 }
+
+//				  <p id = "bestanswer" class="ralewayfont">Your best answer was "World War 1" but the actual page was: <a href="http://www.wikipedia.org/wiki/World_War_II" target="_blank">World War II</a></p>
+//				  <p id = "scoreanswer" class="ralewayfont">You get 96 points for your answer. (95.75% correct.)</p>
 
 
 
@@ -101,32 +126,40 @@ var guessTD2 = '</p></td>';
 
 var guesses = [];
 var numguesses = 0;
+wordList = ["iOS","England"];
+var round = 1;
+var totalScore = 0;
 
 function delineate(str){
 	theleft = str.indexOf("=") + 1;
 	theright = str.lastIndexOf("&");
 	return(str.substring(theleft, theright));
 }
-
+var numberofwords = 0;
 window.onload = function() {
 	var locate = window.location.toString();
 	var difficulty=locate.substring(locate.indexOf("?")+1,locate.length);
 	//need to make it so if there is no difficulty then you're sent back home
 
 
-	var round = 1;
-	var score = 0;
-	var numberofwords = 0;
+	
+	
 	if (difficulty == "easy"){
 		numberofwords = 6;
 	}
 	else if (difficulty == "medium"){
 		numberofwords = 4;
+		document.getElementById("wordCont5").style.display = "none"
+		document.getElementById("wordCont6").style.display = "none"
 	}
 	else if (difficulty == "hard"){
 		numberofwords = 2;
+		document.getElementById("wordCont3").style.display = "none"
+		document.getElementById("wordCont4").style.display = "none"
+		document.getElementById("wordCont5").style.display = "none"
+		document.getElementById("wordCont6").style.display = "none"
 	}
-	doRound(numberofwords);
+	doRound(numberofwords,getSubject());
 
 }
 
@@ -135,26 +168,32 @@ function endRound(){
 	document.getElementById("guessesTable").innerHTML = "";
 	guesses = [];
 	numguesses = 0;
-	//bringbackLoadingBar();
-
-
+	
+	
+	totalScore = totalScore + scoreGain
+	document.getElementById("score").innerHTML = totalScore;
+	
+	document.getElementById("round").innerHTML = parseInt(document.getElementById("round").innerHTML)+1;
+	bringbackLoadingBar();
+	console.log("LOAD NEW WORDS")
+	doRound(numberofwords,getSubject());
+	
 }
-
-function doRound(numberofwords){
-var urlPart1 = "https://crossorigin.me/https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
-var wikitopic = "iOS"
-var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
-var url = urlPart1.concat(wikitopic)
-var xhttp = new XMLHttpRequest(wikitopicWspace);
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-		 var CommonWords=(getFrequency2(this.responseText, 30,wikitopicWspace)).split(",");
-		 applytochips(numberofwords,CommonWords);
-		 removeLoadingBar();
-		}
-  };
-  xhttp.open("GET", url, true);
-  xhttp.send();
+var scoreGain = 0;
+function doRound(numberofwords,wikitopic){
+	var urlPart1 = "https://crossorigin.me/https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
+	var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
+	var url = urlPart1.concat(wikitopic)
+	var xhttp = new XMLHttpRequest(wikitopicWspace);
+	  xhttp.onreadystatechange = function() {
+		if (this.readyState == 4 && this.status == 200) {
+			 var CommonWords=(getFrequency2(this.responseText, 30,wikitopicWspace)).split(",");
+			 applytochips(numberofwords,CommonWords);
+			 removeLoadingBar();
+			}
+	  };
+	  xhttp.open("GET", url, true);
+	  xhttp.send();
 }
 
 	function getFrequency2(string, cutOff, topic) {

@@ -9,6 +9,10 @@
 	font-family: 'Raleway', serif;
 }
 
+.pass{
+	background-color: "#111111";
+}
+
 body {
     background-image: url("wiki.png");
 	-webkit-background-size: cover;
