@@ -1,4 +1,5 @@
 var currentWord = null;
+var wikiText = null;
 function removeLoadingBar() {
 	//document.getElementById("loadingbarbox").removeChild(document.getElementById("LoadingBar"));
 	document.getElementById("loadingbarbox").style.display = "none";
@@ -67,17 +68,24 @@ function bringbackLoadingBar() {
 	}, 800);
 }
 
-function loadModal(){
-	setTimeout(function(){
-			percentageScore = 96.12;
-			scoreGain = percentageScore*100
-			subjectname="google"
-			linktosubject="http://www.google.co.uk"
-			bestanswer="Napoleon Dynamite"
-			document.getElementById("bestanswer").innerHTML = "Your best answer was '".concat(bestanswer).concat("' but the actual page was <a href=").concat(linktosubject).concat(' target="_blank">').concat(currentWord.concat(".")).concat("</a>");
-			document.getElementById("scoreanswer").innerHTML = "You get ".concat(scoreGain).concat(" points for your answer. (").concat(percentageScore).concat("% correct.)")
-			$('#answermodal').openModal();
-	}, 800);
+function loadModal(win){
+	if (win == true){
+			  percentageScore = 100;
+			  scoreGain = percentageScore*100
+			  document.getElementById("bestanswer").innerHTML = "Your answer of '".concat(currentWord).concat("' was correct. View the Wikipedia page for <a href=").concat(wikiText.query.pages[0].fullurl).concat(' target="_blank">').concat(currentWord.concat(".")).concat("</a>");
+			  document.getElementById("scoreanswer").innerHTML = "You get ".concat(scoreGain).concat(" points for your answer. (").concat(percentageScore).concat("% correct.)")
+			  $('#answermodal').openModal();
+	}
+	else {
+		setTimeout(function(){
+				percentageScore = 96.12;
+				scoreGain = percentageScore*100
+				bestanswer="Napoleon Dynamite"
+				document.getElementById("bestanswer").innerHTML = "Your best answer was '".concat(bestanswer).concat("' but the actual page was <a href=").concat(wikiText.query.pages[0].fullurl).concat(' target="_blank">').concat(currentWord.concat(".")).concat("</a>");
+				document.getElementById("scoreanswer").innerHTML = "You get ".concat(scoreGain).concat(" points for your answer. (").concat(percentageScore).concat("% correct.)")
+				$('#answermodal').openModal();
+		}, 800);
+	}
 }
 
 function randomInteger(max) {
@@ -93,6 +101,9 @@ function getSubject(){
 function guessButton(){
 	numguesses = numguesses+1;
 	guesses.push(document.getElementById("guessBar").value);
+	if (document.getElementById("guessBar").value == currentWord){
+		loadModal(true);
+	}
 	document.getElementById("guessBar").value = "";
 	if (numguesses == 1){
 		document.getElementById("guessesTable").innerHTML = guessTD1.concat(guesses[0].concat(guessTD2))
@@ -184,13 +195,13 @@ function endRound(){
 var scoreGain = 0;
 function doRound(numberofwords,wikitopic){
 	console.log(wikitopic);
-	var urlPart1 = "https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=extracts&redirects&exintro=&origin=*&explaintext=&titles="
+	var urlPart1 = "https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=extracts|info&redirects&exintro=&inprop=url&origin=*&explaintext=&titles="
 	var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
 	var url = urlPart1.concat(wikitopic)
 	var xhttp = new XMLHttpRequest(wikitopicWspace);
 	  xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			 var wikiText = JSON.parse(this.responseText);
+			 wikiText = JSON.parse(this.responseText);
 			 var CommonWords=(getFrequency2(wikiText.query.pages[0].extract, 30,wikitopicWspace)).split(",");
 			 applytochips(numberofwords,CommonWords);
 			 removeLoadingBar();
