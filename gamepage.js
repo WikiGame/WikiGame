@@ -1,4 +1,4 @@
-
+var currentWord = null;
 function removeLoadingBar() {
 	//document.getElementById("loadingbarbox").removeChild(document.getElementById("LoadingBar"));
 	document.getElementById("loadingbarbox").style.display = "none";
@@ -74,7 +74,7 @@ function loadModal(){
 			subjectname="google"
 			linktosubject="http://www.google.co.uk"
 			bestanswer="Napoleon Dynamite"
-			document.getElementById("bestanswer").innerHTML = "Your best answer was '".concat(bestanswer).concat("' but the actual page was <a href=").concat(linktosubject).concat(' target="_blank">').concat(subjectname.concat(".")).concat("</a>");
+			document.getElementById("bestanswer").innerHTML = "Your best answer was '".concat(bestanswer).concat("' but the actual page was <a href=").concat(linktosubject).concat(' target="_blank">').concat(currentWord.concat(".")).concat("</a>");
 			document.getElementById("scoreanswer").innerHTML = "You get ".concat(scoreGain).concat(" points for your answer. (").concat(percentageScore).concat("% correct.)")
 			$('#answermodal').openModal();
 	}, 800);
@@ -85,8 +85,9 @@ function randomInteger(max) {
 }
 
 function getSubject(){
-	return wordList[randomInteger(wordList.length)];
-	
+	currentWord = wordList[randomInteger(wordList.length-1)];
+	return currentWord;
+
 }
 
 function guessButton(){
@@ -102,7 +103,7 @@ function guessButton(){
 	else{
 		document.getElementById("guessesTable").innerHTML = guessTD1.concat(guesses[0].concat(guessTD2.concat(guessTD1.concat(guesses[1].concat(guessTD2.concat(guessTD1.concat(guesses[2].concat(guessTD2))))))))
 		loadModal()
-		
+
 	}
 }
 
@@ -126,7 +127,7 @@ var guessTD2 = '</p></td>';
 
 var guesses = [];
 var numguesses = 0;
-wordList = ["iOS","England"];
+wordList = ["iOS","England","Apple","Google","Microsoft","Google Maps","Tim Berners-Lee","Shia LaBeouf","Rick and Morty","Family Guy"];
 var round = 1;
 var totalScore = 0;
 
@@ -135,6 +136,7 @@ function delineate(str){
 	theright = str.lastIndexOf("&");
 	return(str.substring(theleft, theright));
 }
+
 var numberofwords = 0;
 window.onload = function() {
 	var locate = window.location.toString();
@@ -142,8 +144,8 @@ window.onload = function() {
 	//need to make it so if there is no difficulty then you're sent back home
 
 
-	
-	
+
+
 	if (difficulty == "easy"){
 		numberofwords = 6;
 	}
@@ -168,26 +170,28 @@ function endRound(){
 	document.getElementById("guessesTable").innerHTML = "";
 	guesses = [];
 	numguesses = 0;
-	
-	
+
+
 	totalScore = totalScore + scoreGain
 	document.getElementById("score").innerHTML = totalScore;
-	
+
 	document.getElementById("round").innerHTML = parseInt(document.getElementById("round").innerHTML)+1;
 	bringbackLoadingBar();
 	console.log("LOAD NEW WORDS")
 	doRound(numberofwords,getSubject());
-	
+
 }
 var scoreGain = 0;
 function doRound(numberofwords,wikitopic){
-	var urlPart1 = "https://crossorigin.me/https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles="
+	console.log(wikitopic);
+	var urlPart1 = "https://en.wikipedia.org/w/api.php?format=json&formatversion=2&action=query&prop=extracts&redirects&exintro=&origin=*&explaintext=&titles="
 	var wikitopicWspace = wikitopic.concat(" "); //Provides the wikitopic with a space after to make it work when removed in filter
 	var url = urlPart1.concat(wikitopic)
 	var xhttp = new XMLHttpRequest(wikitopicWspace);
 	  xhttp.onreadystatechange = function() {
 		if (this.readyState == 4 && this.status == 200) {
-			 var CommonWords=(getFrequency2(this.responseText, 30,wikitopicWspace)).split(",");
+			 var wikiText = JSON.parse(this.responseText);
+			 var CommonWords=(getFrequency2(wikiText.query.pages[0].extract, 30,wikitopicWspace)).split(",");
 			 applytochips(numberofwords,CommonWords);
 			 removeLoadingBar();
 			}
@@ -197,7 +201,7 @@ function doRound(numberofwords,wikitopic){
 }
 
 	function getFrequency2(string, cutOff, topic) {
-	var cleanString = string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]|the |such |under |of |are |and |to |a |in |is |many |i |that |it |for |you |was |with |on |be |have |but |be |they |as |its |= |january |february |march |april |may |june |july |august |september |october |november |december |by |he |she |by |from |her |him |or |can |most /gi,'');
+	var cleanString = string.replace(/[\.,-\/#!$%\^&\*;:{}=\-_`~()]|the |such |which |known |also |under |of |are |and |to |a |an |at |in |is |many |i |that |it |for |you |was |with |on |be |have |but |be |they |as |its |= |january |february |march |april |may |june |july |august |september |october |november |december |by |he |she |by |from |her |him |or |can |most /gi,'');
 	var re = new RegExp(topic, "gi"); //Setting up the topic as a word to be romoved by the filter
 	var cleanStringP2 = cleanString.replace(re,'')
 	var words = cleanStringP2.split(/\s/), frequencies = {}, word, frequency, i;
